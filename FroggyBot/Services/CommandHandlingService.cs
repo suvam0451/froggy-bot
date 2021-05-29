@@ -54,8 +54,14 @@ namespace FroggyBot.Services
 
             // This value holds the offset where the prefix ends
             var argPos = 0;
+            // Allow prefix override for local testing
+            var guildPrefix = context.guildItem.prefix;
+            if(Environment.GetEnvironmentVariable("FROGGY_PREFIX_OVERRIDE") == "") {
+                guildPrefix = Environment.GetEnvironmentVariable("FROGGY_PREFIX_OVERRIDE");
+            }
+
             if (!message.HasMentionPrefix(_discord.CurrentUser, ref argPos))
-                if (!message.HasStringPrefix(context.guildItem.prefix, ref argPos))
+                if (!message.HasStringPrefix(guildPrefix, ref argPos))
                     return;
 
             // A new kind of command context, ShardedCommandContext can be utilized with the commands framework
